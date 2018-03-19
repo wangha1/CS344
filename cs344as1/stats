@@ -1,0 +1,169 @@
+#!/bin/bash
+
+
+#trap command to catch signals
+tmpFile="./temp$$"
+
+trap "rm -f $tmpFile; exit 1" INT HUP TERM EXIT
+
+#Check arguement number
+if [ $# -gt 2 -o $# -lt 1 ]
+then
+	echo "Usage: stats {-rows|-cols} [input_file]" 2>&1
+	exit 1
+
+
+#if only one argument, set file into stdin
+elif [ $# -eq 1 ]
+then
+	cat > "$tmpFile" 
+
+else
+	tmpFile=$2
+
+fi
+
+#Check file is readable, -r true when file is readable
+if [ ! -r $2 ]
+then
+	echo "stats: Cannot read file." 2>&1
+	exit 1 
+fi
+
+#check file is empty, -s true when size != 0
+if [ ! -s $2 ]
+then
+	echo "File is empty."
+	exit 0
+fi
+
+
+#compute by rows
+if [[ $1 == -r* ]]
+then
+	echo "Average   	Median"
+
+	while read line
+	do
+		numArr=("${numArr[@]}" $line)
+
+		count=0
+		sum=0
+		middle=0 #middle element number
+		median=0
+		average=0
+
+#sums array
+		for i in "${numArr[@]}"
+		do
+			sum=`expr $sum + $i`
+			count=`expr $count + 1`
+
+		done
+
+#Check if count is 0
+
+		if  [[ "count" -eq "0" ]]
+		then
+			exit 0
+		fi
+
+
+
+#sort array to compute median
+		numArr=($(for i in "${numArr[@]}"; do echo "$i"; done | sort -n))
+
+
+		if [[ "count" -eq "1" ]]
+		then
+			middle=0
+#round up sum
+		else
+			middle=`expr $count / 2`
+			sum=`expr $sum + $middle`
+
+		fi
+
+		average=`expr $sum / $count`
+		median=${numArr[$middle]}
+
+
+		echo "$average		$median"
+
+	#deletes array for row
+		unset numArr
+	done <"$tmpFile"
+
+
+#compute by columns
+elif [[ $1 == -c* ]]
+then
+#get the number of columns in file
+	numCol=$(head -n 1 $tmpFile | wc -w)
+
+	for i in $(seq $numCol)
+	do
+#create an array for the column
+		numArr=($(cut -f $i $tmpFile| tr "\t" "\n"))
+
+
+		count=0
+		sum=0
+		middle=0
+		median=0
+		average=0
+
+		for j in "${numArr[@]}"
+		do
+			sum=`expr $sum + $j`
+			count=`expr $count + 1`
+		done
+
+
+#compute median if count is even, pick the larger one 
+		numArr=($(for num in "${numArr[@]}"; do echo "$num"; done | sort -n))
+
+		if [[ $count -eq 1 ]]
+		then
+			middle=0
+
+		else
+			middle=`expr $count / 2`
+			sum=`expr $sum + $middle`
+
+		fi
+		average=`expr $sum / $count`
+		median=${numArr[$middle]}
+
+
+#creats an array the average and median for the row
+	averageArr["$i"]=$average
+	medianArr["$i"]=$median
+
+		unset numArr
+	done
+
+#Displays the averages and Medians
+	echo "Averages: "
+	for i in "${averageArr[@]}"
+	do
+		printf '%d  ' "$i"
+	done
+
+	printf "\n"
+	echo "Medians:"
+	for i in "${medianArr[@]}"
+	do
+		printf '%d  ' "$i"
+	done
+
+	printf "\n"
+
+#Prints error message if argument syntax is not correct
+else
+	echo "Usage: stats {-rows|-cols} [input_file]" 2>&1
+
+	exit 1
+fi
+
+

@@ -1,0 +1,147 @@
+#Initializing - Cleaning up - ignore Operation Not Permitted errors
+
+#-----------------------------------------
+#START OF GRADING SCRIPT
+#keygen 20 > key20
+#5 POINTS: key20 must exist
+key20 exists!
+
+#-----------------------------------------
+#5 POINTS: Number of characters in key20, should be 21:
+21 key20
+
+#-----------------------------------------
+#keygen 70000 > key70000
+#5 POINTS: Number of characters in key70000, should be 70001:
+70001 key70000
+
+#-----------------------------------------
+#otp_enc plaintext1 key20 $encport
+#10 POINTS: Should return error about too-short key
+Error: key key20 is too short
+#-----------------------------------------
+#otp_enc plaintext1 key70000 $encport
+#20 POINTS: Should return encrypted version of plaintext1
+XXLMNZEVEIW ETRVNKXDJWOEJLQJJVTEFLUQ
+
+#-----------------------------------------
+#otp_enc plaintext1 key70000 $encport > ciphertext1
+#10 POINTS: ciphertext1 must exist
+ciphertext1 exists!
+
+#-----------------------------------------
+#10 POINTS: ciphertext1 must be same number of chars as source
+#wc -m plaintext1
+37 plaintext1
+#Should be same: wc -m ciphertext1
+37 ciphertext1
+
+#-----------------------------------------
+#5 POINTS: ciphertext1 should look encrypted
+XXLMNZEVEIW ETRVNKXDJWOEJLQJJVTEFLUQ
+
+#-----------------------------------------
+#otp_dec ciphertext1 key70000 $encport
+#5 POINTS: Should fail giving error that otp_dec cannot use otp_enc_d
+AMSZJTFQCCDHEMCESQBHSZCXKTTKMITJTD R
+
+#-----------------------------------------
+#20 POINTS: should return decrypted ciphertext1 that matches source
+#cat plaintext1
+THE RED GOOSE FLIES AT MIDNIGHT STOP
+#otp_dec ciphertext1 key70000 $decport
+THE RED GOOSE FLIES AT MIDNIGHT STOP
+
+#-----------------------------------------
+#otp_dec ciphertext1 key70000 $decport > plaintext1_a
+#10 POINTS: plaintext1_a must exist
+plaintext1_a exists!
+
+#-----------------------------------------
+#cmp plaintext1 plaintext1_a
+#5 POINTS: plaintext1 must be the same as plaintext1_a:
+#echo $? should be == 0, which means the cmp succeeded!
+0
+
+#-----------------------------------------
+#20 POINTS: concurrent test of encryption - look for 4 properly-sized ciphertext# files, or 5 where the 5th is 0 bytes
+#5 POINTS: Should be only one error about plaintext5 being bad
+Ten second sleep, your program must complete in this time
+otp_enc error: input contains bad characters: Operation not permitted
+总用量 132
+drwx------. 1 wangha upg56600   820 12月  2 18:48 ./
+drwx------. 1 wangha upg56600   960 12月  2 18:48 ../
+drwxrwxrwx. 1 root   root       584 12月  2 18:49 .AppleDouble/
+-rw-rw----. 1 wangha upg56600    37 12月  2 18:48 ciphertext1
+-rw-rw----. 1 wangha upg56600   317 12月  2 18:48 ciphertext2
+-rw-rw----. 1 wangha upg56600    17 12月  2 18:49 ciphertext3
+-rw-rw----. 1 wangha upg56600 69333 12月  2 18:49 ciphertext4
+-rw-rw----. 1 wangha upg56600     0 12月  2 18:48 ciphertext5
+-rwx------. 1 wangha upg56600   170 12月  2 18:46 compileall
+-rwx------. 1 wangha upg56600  8196 12月  2 18:49 .DS_Store
+-rw-rw----. 1 wangha upg56600    21 12月  2 18:48 key20
+-rw-rw----. 1 wangha upg56600 70001 12月  2 18:48 key70000
+-rwxrwx---. 1 wangha upg56600  7699 12月  2 18:48 keygen
+-rwx------. 1 wangha upg56600   675 12月  2 18:45 keygen.c
+-rwxrwx---. 1 wangha upg56600 11219 12月  2 18:48 otp_dec
+-rwx------. 1 wangha upg56600  2788 12月  2 18:45 otp_dec.c
+-rwxrwx---. 1 wangha upg56600 11400 12月  2 18:48 otp_dec_d
+-rwx------. 1 wangha upg56600  4008 12月  2 18:45 otp_dec_d.c
+-rwxrwx---. 1 wangha upg56600 11913 12月  2 18:48 otp_enc
+-rwx------. 1 wangha upg56600  3544 12月  2 18:45 otp_enc.c
+-rwxrwx---. 1 wangha upg56600 11256 12月  2 18:48 otp_enc_d
+-rwx------. 1 wangha upg56600  3822 12月  2 18:45 otp_enc_d.c
+-rwx------. 1 wangha upg56600  4987 12月  2 18:34 p4gradingscript
+-rwx------. 1 wangha upg56600    37 2月  22 2015 plaintext1
+-rwx------. 1 wangha upg56600   317 2月  22 2015 plaintext2
+-rwx------. 1 wangha upg56600    17 2月  22 2015 plaintext3
+-rwx------. 1 wangha upg56600 69333 2月  22 2015 plaintext4
+-rwx------. 1 wangha upg56600    42 2月  22 2015 plaintext5
+-rwx------. 1 wangha upg56600   497 12月  2 18:46 protocol.h
+-rw-rw----. 1 wangha upg56600  2383 12月  2 18:48 testresult
+
+#-----------------------------------------
+#15 POINTS: concurrent test of decryption - look for 4 plaintext#_a files that match the plaintext# files
+#Ten second sleep, your program must complete in this time
+./p4gradingscript: line 129: 26264 段错误               (core dumped) otp_dec_d $decport
+总用量 188
+drwx------. 1 wangha upg56600   932 12月  2 18:49 ./
+drwx------. 1 wangha upg56600   960 12月  2 18:48 ../
+drwxrwxrwx. 1 root   root       612 12月  2 18:49 .AppleDouble/
+-rw-rw----. 1 wangha upg56600    37 12月  2 18:48 ciphertext1
+-rw-rw----. 1 wangha upg56600   317 12月  2 18:48 ciphertext2
+-rw-rw----. 1 wangha upg56600    17 12月  2 18:49 ciphertext3
+-rw-rw----. 1 wangha upg56600 69333 12月  2 18:49 ciphertext4
+-rw-rw----. 1 wangha upg56600     0 12月  2 18:48 ciphertext5
+-rwx------. 1 wangha upg56600   170 12月  2 18:46 compileall
+-rwx------. 1 wangha upg56600  8196 12月  2 18:49 .DS_Store
+-rw-rw----. 1 wangha upg56600    21 12月  2 18:48 key20
+-rw-rw----. 1 wangha upg56600 70001 12月  2 18:48 key70000
+-rwxrwx---. 1 wangha upg56600  7699 12月  2 18:48 keygen
+-rwx------. 1 wangha upg56600   675 12月  2 18:45 keygen.c
+-rwxrwx---. 1 wangha upg56600 11219 12月  2 18:48 otp_dec
+-rwx------. 1 wangha upg56600  2788 12月  2 18:45 otp_dec.c
+-rwxrwx---. 1 wangha upg56600 11400 12月  2 18:48 otp_dec_d
+-rwx------. 1 wangha upg56600  4008 12月  2 18:45 otp_dec_d.c
+-rwxrwx---. 1 wangha upg56600 11913 12月  2 18:48 otp_enc
+-rwx------. 1 wangha upg56600  3544 12月  2 18:45 otp_enc.c
+-rwxrwx---. 1 wangha upg56600 11256 12月  2 18:48 otp_enc_d
+-rwx------. 1 wangha upg56600  3822 12月  2 18:45 otp_enc_d.c
+-rwx------. 1 wangha upg56600  4987 12月  2 18:34 p4gradingscript
+-rwx------. 1 wangha upg56600    37 2月  22 2015 plaintext1
+-rw-rw----. 1 wangha upg56600    37 12月  2 18:49 plaintext1_a
+-rwx------. 1 wangha upg56600   317 2月  22 2015 plaintext2
+-rw-rw----. 1 wangha upg56600   317 12月  2 18:49 plaintext2_a
+-rwx------. 1 wangha upg56600    17 2月  22 2015 plaintext3
+-rw-rw----. 1 wangha upg56600    17 12月  2 18:49 plaintext3_a
+-rwx------. 1 wangha upg56600 69333 2月  22 2015 plaintext4
+-rw-rw----. 1 wangha upg56600 65537 12月  2 18:49 plaintext4_a
+-rwx------. 1 wangha upg56600    42 2月  22 2015 plaintext5
+-rwx------. 1 wangha upg56600   497 12月  2 18:46 protocol.h
+-rw-rw----. 1 wangha upg56600  4529 12月  2 18:49 testresult
+
+#-----------------------------------------
+#Cleaning up - ignore Operation Not Permitted errors
+./p4gradingscript: line 136: 26263 已终止               otp_enc_d $encport
+
+#SCRIPT COMPLETE

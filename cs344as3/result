@@ -1,0 +1,116 @@
+Pre-script Info
+PID: 29229
+: 
+: BEGINNING TEST SCRIPT - MAX 150 POINTS (10 more points for comments)
+: 
+: 
+: --------------------
+: ls (10 points for returning dir contents)
+: p3testscript
+result
+result.txt
+smallsh
+smallsh1.c
+smallsh.c
+: 
+: 
+: --------------------
+: ls out junk
+: : 
+: 
+: --------------------
+: cat junk (20 points for correctly returning contents of junk)
+: junk
+p3testscript
+result
+result.txt
+smallsh
+smallsh1.c
+smallsh.c
+: 
+: 
+: --------------------
+: wc in junk (20 points for returning correct numbers from wc)
+: wc: <: 没有那个文件或目录
+ 7  7 65 junk
+ 7  7 65 总用量
+: 
+: 
+: --------------------
+: test -f badfile (10 points for returning error value of 1)
+: : Exited value: 1.
+: 
+: 
+: --------------------
+: wc in badfile (10 points for returning text error)
+: wc: <: 没有那个文件或目录
+wc: badfile: 没有那个文件或目录
+0 0 0 总用量
+: 
+: 
+: --------------------
+: badfile (10 points for returning text error)
+: badfile: No such file or directory
+: 
+: 
+: --------------------
+: sleep 100 background (10 points for returning process ID of sleeper)
+: Background Pid is: 29275
+: 
+: 
+: --------------------
+: pkill -signal SIGTERM sleep (10 points for pid of killed process, 10 points for signal)
+: (Ignore message about Operation Not Permitted)
+: pkill: 4340 - Operation not permitted
+pkill: 4795 - Operation not permitted
+pkill: 5935 - Operation not permitted
+pkill: 12397 - Operation not permitted
+pkill: 12548 - Operation not permitted
+pkill: 13518 - Operation not permitted
+pkill: 19030 - Operation not permitted
+pkill: 20060 - Operation not permitted
+pkill: 20423 - Operation not permitted
+pkill: 20603 - Operation not permitted
+pkill: 20751 - Operation not permitted
+pkill: 21689 - Operation not permitted
+pkill: 21890 - Operation not permitted
+pkill: 24343 - Operation not permitted
+pkill: 26256 - Operation not permitted
+pkill: 28839 - Operation not permitted
+pkill: 29169 - Operation not permitted
+pkill: 32466 - Operation not permitted
+Background pid #29275 is killed: terminated by signal 15.
+: 
+: 
+: --------------------
+: sleep 1 background (10 pts for pid of bg ps when done, 10 for exit value)
+: Background Pid is: 29287
+: Background pid #29287 is killed: Exited value: 0.
+: 
+: 
+: --------------------
+: pwd
+: /nfs/stak/students/w/wangha/cs344as3
+: 
+: 
+: --------------------
+: cd
+: : 
+: 
+: --------------------
+: pwd (10 points for being in the HOME dir)
+: /nfs/stak/students/w/wangha
+: 
+: 
+: --------------------
+: mkdir testdir29229
+: : 
+: 
+: --------------------
+: cd testdir29229
+: : 
+: 
+: --------------------
+: pwd (10 points for being in the newly created dir)
+: /nfs/stak/students/w/wangha/testdir29229
+: 
